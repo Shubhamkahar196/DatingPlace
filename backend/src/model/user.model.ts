@@ -1,7 +1,22 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
-const userSchema = new mongoose.Schema({
+interface IUser extends mongoose.Document {
+    name: string;
+    email: string;
+    password: string;
+    age: number;
+    gender: 'male' | 'Female';
+    genderPreference: 'male' | 'female';
+    bio: string;
+    image: string;
+    likes: mongoose.Types.ObjectId[];
+    dislikes: mongoose.Types.ObjectId[];
+    matches: mongoose.Types.ObjectId[];
+    isPasswordCorrect(password: string): Promise<boolean>;
+}
+
+const userSchema = new mongoose.Schema<IUser>({
     name: {
         type: String,
         required: true,
@@ -27,7 +42,7 @@ const userSchema = new mongoose.Schema({
     genderPreference: {
         type:String,
         required: true,
-        enum: ['male','female','both']
+        enum: ['male','female']
     },
     bio : {
         type: String,

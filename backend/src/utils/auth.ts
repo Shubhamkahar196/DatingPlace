@@ -7,6 +7,10 @@ export const SignupSchema = z.object({
   age: z.number(),
   gender: z.enum(["male", "female"]),
   genderPreference: z.enum(["male", "female"]),
+  bio: z.string().optional(),
+  image: z.string().optional(),
+  likes: z.array(z.string()).optional(),
+  dislikes: z.array(z.string()).optional(),
 });
 
 export const SigninSchema = z.object({

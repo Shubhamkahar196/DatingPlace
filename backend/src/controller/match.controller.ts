@@ -5,7 +5,7 @@ import { Server } from "socket.io";
 
 
 
-export const Left = async (req: Request, res: Response) => {
+export const swipeLeft = async (req: Request, res: Response) => {
     try {
         const {disLikeUserId} = req.params;
 
@@ -32,7 +32,7 @@ export const Left = async (req: Request, res: Response) => {
     }
 }
 
-export const Right = async (req: Request, res: Response) => {
+export const swipeRight = async (req: Request, res: Response) => {
     try {
         const {likeUserId} = req.params;
         const currentUser = await User.findById(req?.user.id);

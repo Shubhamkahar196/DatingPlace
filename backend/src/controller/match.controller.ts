@@ -5,13 +5,13 @@ import { Server } from "socket.io";
 
 
 
-export const swipeLeft = async (req: Request, res: Response) => {
+export const Left = async (req: Request, res: Response) => {
     try {
         const {disLikeUserId} = req.params;
 
         const currentUser = await User.findById(req?.user.id);
 
-        //TODO: recheck this 
+        
         if(!currentUser?.dislikes.includes(Object(disLikeUserId))){
             currentUser?.dislikes.push(Object(disLikeUserId));
             await currentUser?.save();
@@ -32,7 +32,7 @@ export const swipeLeft = async (req: Request, res: Response) => {
     }
 }
 
-export const swipeRight = async (req: Request, res: Response) => {
+export const Right = async (req: Request, res: Response) => {
     try {
         const {likeUserId} = req.params;
         const currentUser = await User.findById(req?.user.id);

@@ -30,3 +30,21 @@ type loginProp = {
     email: String,
     password: String
 }
+
+export const useAuthStore = create<AuthStore>((set) => ({
+    authUser: null,
+    checkingAuth: true,
+    loading: false,
+
+    signup: async (signupDate: SignProp) => {
+        try {
+            set({ loading: true})
+            const res = await axiosInstance.post<SignUpResponse>('/auth/signup', signupDate)
+            set({authUser: res.data?.user})
+            console.log(res.data?.user._id);
+            
+        } catch (error) {
+            
+        }
+    }
+}))

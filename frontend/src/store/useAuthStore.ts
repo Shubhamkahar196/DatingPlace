@@ -2,35 +2,43 @@ import { create } from "zustand";
 import { axiosInstance } from '../lib/axios'
 import toast from "react-hot-toast";
 import { disconnectSocket, initializeSocket } from "../socket/socket.client";
+import { AxiosError } from "axios";
+
+interface User {
+    _id: string;
+    name: string;
+    email: string;
+    age: string;
+    gender: string;
+    genderPreference: string;
+}
 
 interface SignUpResponse {
-    user: {
-        _id: string
-    }
+    user: User;
 }
 
 type AuthStore = {
     loading: boolean;
-    authUser: any;
+    authUser: User | null;
     checkingAuth: boolean;
-    signup: ({}: SignProp) => void;
+    signup: (data: SignProp) => void;
     logout: () => void;
     checkAuth: () => void;
-    login: ({}: loginProp) => void;
+    login: (data: loginProp) => void;
 }
 
 type SignProp = {
-    name: String,
-    email: String,
-    password: String,
-    age: String,
-    gender: String,
-    genderPreference: String
+    name: string,
+    email: string,
+    password: string,
+    age: string,
+    gender: string,
+    genderPreference: string
 }
 
 type loginProp = {
-    email: String,
-    password: String
+    email: string,
+    password: string
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
@@ -46,8 +54,12 @@ export const useAuthStore = create<AuthStore>((set) => ({
             console.log(res.data?.user._id);
             initializeSocket(res.data?.user._id)
             toast.success('Account created successfully')
-        } catch (error: any) {
-            toast.error(error.res.data.message || 'Something went wrong')
+        } catch (error: unknown) {
+            if (error instanceof AxiosError && error.response) {
+                toast.error(error.response.data.message || 'Something went wrong')
+            } else {
+                toast.error('Something went wrong')
+            }
         } finally {
             set({ loading: false })
         }
@@ -71,8 +83,12 @@ export const useAuthStore = create<AuthStore>((set) => ({
             const res = await axiosInstance.post<SignUpResponse>('/auth/logout');
             disconnectSocket();
             if (res.status === 200) set({ authUser: null })
-        } catch (error: any) {
-            toast.error(error.response.data.message || "Something went wrong")
+        } catch (error: unknown) {
+            if (error instanceof AxiosError && error.response) {
+                toast.error(error.response.data.message || "Something went wrong")
+            } else {
+                toast.error("Something went wrong")
+            }
         }
     },
 
@@ -84,9 +100,13 @@ export const useAuthStore = create<AuthStore>((set) => ({
             console.log(res.data?.user._id);
             // initializeSocket(res.data?.user._id);
             toast.success("Login successfully")
-            
-        } catch (error:any) {
-            toast.error(error.response.data.message || "Something went wrong")
+
+        } catch (error: unknown) {
+            if (error instanceof AxiosError && error.response) {
+                toast.error(error.response.data.message || "Something went wrong")
+            } else {
+                toast.error("Something went wrong")
+            }
         } finally {
             set({ loading: false })
         }

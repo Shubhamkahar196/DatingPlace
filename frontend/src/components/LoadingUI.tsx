@@ -1,4 +1,4 @@
-export const LoadingUI = () => {
+const LoadingUI = () => {
 	return (
 		<div className='relative w-full max-w-sm h-[28rem]'>
 			<div className='card bg-white w-96 h-[28rem] rounded-lg overflow-hidden border border-gray-200 shadow-sm'>
@@ -16,4 +16,4 @@ export const LoadingUI = () => {
 	);
 };
 
-// export default LoadingUI;
+export default LoadingUI;

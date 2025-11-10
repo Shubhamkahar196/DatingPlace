@@ -1,19 +1,27 @@
 import TinderCard from "react-tinder-card";
+
 import { useMatchStore } from "../store/useMatchStore";
 
+interface User {
+    _id: string;
+    name: string;
+    age: string;
+    image?: string;
+    bio?: string;
+}
 
 const SwipeArea = () => {
     const { userProfiles, swipeRight, swipeLeft} = useMatchStore();
 
-    const  handleSwipe = (dir: any, user: any) => {
+    const  handleSwipe = (dir: string, user: User) => {
         if(dir === 'right') swipeRight(user);
         else if(dir === 'left') swipeLeft(user);
     }
 
     return (
         <>
-            <div className="relative w-full max-w-sm h-[28rem]">
-                {userProfiles.map((user: any) => (
+            <div className="relative w-full max-w-sm h-112">
+                {userProfiles.map((user: User) => (
                     <TinderCard
                         className="absolute shadow-none"
                         key={user._id}
@@ -23,17 +31,17 @@ const SwipeArea = () => {
                         preventSwipe={['up', 'down']}
                     >
                         <div
-                            className='card bg-white w-96 h-[28rem] select-none rounded-lg overflow-hidden border
+                            className='card bg-white w-96 h-112 select-none rounded-lg overflow-hidden border
 					 border-gray-200'
                         >
                             <figure className='px-4 pt-4 h-3/4'>
                                 <img
                                     src={user.image || "/placeholder.png"}
-                                    alt={user.name} 
+                                    alt={user.name}
                                     className='rounded-lg object-cover h-full pointer-events-none'
                                 />
                             </figure>
-                            <div className='card-body bg-gradient-to-b from-white to-pink-50'>
+                            <div className='card-body bg-linear-to-b from-white to-pink-50'>
                                 <h2 className='card-title text-2xl text-gray-800'>
                                     {user.name}, {user.age}
                                 </h2>

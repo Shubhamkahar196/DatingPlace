@@ -11,6 +11,8 @@ interface User {
     age: string;
     gender: string;
     genderPreference: string;
+    image?: string;
+    bio?: string;
 }
 
 interface SignUpResponse {

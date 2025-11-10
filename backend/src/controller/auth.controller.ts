@@ -168,3 +168,21 @@ export const logout = async(req:Request,res:Response) =>{
   })
   return;
 }
+
+
+export const getme = async (req: Request , res : Response) => {
+    try {
+        res.send({
+            succes0s: true,
+            user: req.user
+        })
+        return;
+    } catch (error) {
+        console.log('Error in server');
+        res.send({
+            success: false,
+            message: "Error in server"
+        })
+        return;
+    }
+}

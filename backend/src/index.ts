@@ -28,7 +28,7 @@ connectDb();
 app.use(express.json());
 app.use(cookieParse());
 app.use(cors({
-    origin: process.env.CLIENT_URL,
+    origin: 'http://localhost:5173',
     credentials: true
 }))
 
@@ -44,5 +44,5 @@ app.use("/api/v1/match",MatchRouter);
 
 httpServer.listen(PORT,()=>{
     console.log(`Server as started at ports ${PORT}`);
-    connectDb();
+    
 })

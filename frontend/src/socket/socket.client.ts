@@ -2,7 +2,7 @@ import {io, Socket} from 'socket.io-client';
 
 let socket: Socket | null = null;
 
-const SECURE_URL = 'http://localhost:8000'
+const SECURE_URL = 'http://localhost:8080'
 
 export const initializeSocket = (userId: string) => {
     if(socket){

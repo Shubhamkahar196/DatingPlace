@@ -15,7 +15,7 @@ export const protectRoute = async (req: Request, res: Response, next : NextFunct
             return;
         }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret123') as {id: string};
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret123') as {userId: string};
 
         if(!decoded) {
             res.status(401).json({
@@ -25,7 +25,7 @@ export const protectRoute = async (req: Request, res: Response, next : NextFunct
             return;
         }
 
-        const currentUser = await User.findById(decoded.id);
+        const currentUser = await User.findById(decoded.userId);
 
         req.user = currentUser;
 

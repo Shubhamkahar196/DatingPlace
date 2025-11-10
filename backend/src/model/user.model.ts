@@ -37,12 +37,12 @@ const userSchema = new mongoose.Schema<IUser>({
     gender: {
         type: String,
         required: true,
-        enum: ['male', 'Female']
+        enum: ['male', 'female']
     },
     genderPreference: {
         type:String,
         required: true,
-        enum: ['male','female']
+        enum: ['male','female','both']
     },
     bio : {
         type: String,

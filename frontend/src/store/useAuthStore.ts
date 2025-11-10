@@ -71,7 +71,9 @@ export const useAuthStore = create<AuthStore>((set) => ({
         try {
             const res = await axiosInstance.get<SignUpResponse>('/auth/me')
             set({ authUser: res?.data?.user });
-            initializeSocket(res.data?.user._id);
+            if (res.data?.user) {
+                initializeSocket(res.data.user._id);
+            }
         } catch (error) {
             set({ authUser: null })
             console.log(error);

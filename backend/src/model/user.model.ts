@@ -13,6 +13,9 @@ interface IUser extends mongoose.Document {
     likes: mongoose.Types.ObjectId[];
     dislikes: mongoose.Types.ObjectId[];
     matches: mongoose.Types.ObjectId[];
+    sentRequests: mongoose.Types.ObjectId[];
+    receivedRequests: mongoose.Types.ObjectId[];
+    friends: mongoose.Types.ObjectId[];
     isPasswordCorrect(password: string): Promise<boolean>;
 }
 
@@ -63,7 +66,19 @@ const userSchema = new mongoose.Schema<IUser>({
     matches: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }]   
+    }],
+    sentRequests: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    receivedRequests: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    friends: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }]
 },{timestamps: true})
 
 

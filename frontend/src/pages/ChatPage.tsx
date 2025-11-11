@@ -15,7 +15,7 @@ const ChatPage = () => {
 
 	const { id } = useParams();
 
-	const match = matches.find((m) => m?._id === id);
+	const friend = matches.find((m) => m?._id === id);
 
 	useEffect(() => {
 		if (authUser && id) {
@@ -31,8 +31,8 @@ const ChatPage = () => {
 
 	if (!authUser) return <div>Loading...</div>;
 	if (isLoadingMatches) return <LoadingMessagesUI />;
-	if (!match) return <MatchNotFound />;
-    console.log(match);
+	if (!friend) return <MatchNotFound />;
+    console.log(friend);
 
 
 	return (
@@ -42,15 +42,15 @@ const ChatPage = () => {
 			<div className='grow flex flex-col p-4 md:p-6 lg:p-8 overflow-hidden max-w-4xl mx-auto w-full'>
 				<div className='flex items-center mb-4 bg-white rounded-lg shadow p-3'>
 					<img
-						src={match.image || "/avatar.png"}
+						src={friend.image || "/avatar.png"}
 						className='w-12 h-12 object-cover rounded-full mr-3 border-2 border-pink-300'
 					/>
-					<h2 className='text-xl font-semibold text-gray-800'>{match.name}</h2>
+					<h2 className='text-xl font-semibold text-gray-800'>{friend.name}</h2>
 				</div>
 
 				<div className='grow overflow-y-auto mb-4 bg-white rounded-lg shadow p-4'>
 					{messages.length === 0 ? (
-						<p className='text-center text-gray-500 py-8'>Start your conversation with {match.name}</p>
+						<p className='text-center text-gray-500 py-8'>Start your conversation with {friend.name}</p>
 					) : (
 						messages.map((msg) => (
 							<div
@@ -70,7 +70,7 @@ const ChatPage = () => {
 						))
 					)}
 				</div>
-				<MessageInput match={match} />
+				<MessageInput match={friend} />
 			</div>
 		</div>
 	);

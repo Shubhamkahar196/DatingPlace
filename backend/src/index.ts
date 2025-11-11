@@ -33,9 +33,9 @@ app.use(cors({
 }))
 
 app.use("/api/v1/auth",authRouter);
-app.use("/api/v1/user",UserRouter)
+app.use("/api/v1/users",UserRouter)
 app.use("/api/v1/message",MessageRouter);
-app.use("/api/v1/match",MatchRouter);
+app.use("/api/v1/matches",MatchRouter);
 
 
 // app.listen(8080,()=>{

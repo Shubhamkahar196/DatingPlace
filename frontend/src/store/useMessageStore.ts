@@ -22,12 +22,15 @@ export const useMessageStore = create<messageStore>((set) => ({
 
     sendMessage: async (receiverId : string, content: string) => {
         try {
+            const authUser = useAuthStore.getState().authUser;
+            if (!authUser) return;
+
             set(prev => ({
-                messages: [...prev.messages, { sender: useAuthStore.getState().authUser._id, content}]
+                messages: [...prev.messages, { sender: authUser._id, content}]
             }))
             const res = await axiosInstance.post('/messages/send', {receiverId, content})
             console.log(res.data);
-            
+
         } catch (error) {
             console.log(error);
         } finally {
@@ -44,7 +47,7 @@ export const useMessageStore = create<messageStore>((set) => ({
             console.log(error);
             set({messages: []})
         } finally {
-
+            set({loading: false})
         }
     },
 
@@ -55,7 +58,7 @@ export const useMessageStore = create<messageStore>((set) => ({
             console.error("Socket error:", socket);
             return;
         }
-        socket.on('newMessages', ({message} : any) => {
+        socket.on('newMessage', ({message} : any) => {
             set(prev => ({messages: [...prev.messages, message]}))
         })
     },
@@ -64,7 +67,7 @@ export const useMessageStore = create<messageStore>((set) => ({
     unsubscribeFromMessages: () => {
         const socket = getSocket();
         if ('off' in socket) {
-            socket.off('newMessages');
+            socket.off('newMessage');
         }
     }
 }))

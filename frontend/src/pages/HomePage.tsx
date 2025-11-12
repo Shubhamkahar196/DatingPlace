@@ -5,6 +5,7 @@ import { Header } from "../components/Header";
 import NoUsersFound from "../components/NoMatchesFound";
 import LoadingUI from "../components/LoadingUI";
 import { useAuthStore } from "../store/useAuthStore";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
 
@@ -61,6 +62,7 @@ const HomePage = () => {
 
 const UserList = () => {
     const { users, sendFriendRequest, acceptFriendRequest, friendRequests } = useMatchStore();
+    const navigate = useNavigate();
 
     const isFriendRequestReceived = (userId: string) => {
         return friendRequests.some((req: any) => req._id === userId);
@@ -83,7 +85,14 @@ const UserList = () => {
 
                         {isFriendRequestReceived(user._id) ? (
                             <button
-                                onClick={() => acceptFriendRequest(user._id)}
+                                onClick={async () => {
+                                    try {
+                                        await acceptFriendRequest(user._id);
+                                        navigate(`/chat/${user._id}`);
+                                    } catch (error) {
+                                        console.error('Failed to accept request:', error);
+                                    }
+                                }}
                                 className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
                             >
                                 Accept Request

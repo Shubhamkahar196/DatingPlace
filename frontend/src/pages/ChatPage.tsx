@@ -7,6 +7,7 @@ import { useMessageStore } from "../store/useMessageStore";
 import { Link, useParams } from "react-router-dom";
 import { Loader, UserX } from "lucide-react";
 import MessageInput from "../components/MessageInput";
+import { initializeSocket } from "../socket/socket.client";
 
 const ChatPage = () => {
 	const { getMyMatches, matches, isLoadingMatches } = useMatchStore();
@@ -19,6 +20,7 @@ const ChatPage = () => {
 
 	useEffect(() => {
 		if (authUser && id) {
+			initializeSocket(authUser._id);
 			getMyMatches();
 			getMessage(id);
 			subscribeMessages();

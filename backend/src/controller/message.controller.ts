@@ -13,7 +13,7 @@ export const sendMessage = async(req: AuthRequest, res:Response) =>{
         const {content,receiverId} = req.body;
 
         const newMessage = await Message.create({
-            sender: req?.user.id,
+            sender: req?.user._id,
             receiver: receiverId,
             content
         })

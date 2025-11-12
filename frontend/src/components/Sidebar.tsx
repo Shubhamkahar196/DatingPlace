@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { MessageCircle, X, UserPlus, Check } from 'lucide-react';
 import LoadingState from "./LoadingState";
 import NoMatchesFound from "./NoMatchesFound";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMatchStore } from "../store/useMatchStore";
 import toast from "react-hot-toast";
 
@@ -15,6 +15,7 @@ interface Match {
 const Sidebar = () => {
 
     const [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate();
 
     const toggleSidebar = () => setIsOpen(!isOpen);
 
@@ -69,6 +70,7 @@ const Sidebar = () => {
                                                 try {
                                                     await acceptFriendRequest(request._id);
                                                     toast.success('Friend request accepted!');
+                                                    navigate(`/chat/${request._id}`);
                                                 } catch {
                                                     toast.error('Failed to accept request');
                                                 }
